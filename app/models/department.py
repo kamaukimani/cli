@@ -96,6 +96,28 @@ class Department:
         sql="SELECT * FROM departments WHERE name is ?;"
         row=CURSOR.execute(sql,(name,)).fetchone()
         return cls.instance_from_db(row) if row else None
+    def employees(self):
+        from .employee import Employee
+        sql="SELECT * FROM employees WHERE department_id=?;"
+        rows=CURSOR.execute(sql,(self.id,)).fetchall()
+        return [Employee.instance_from_db(row) for row in rows]
+
+
+
+# if __name__=="__main__":
+        
+#     Department.drop_table()
+#     Department.create_table()
+#     guido=Department("Guido","Somewhere")
+#     guido.save()
+#     guido.location="Dutch"
+#     guido.update()
+#     rossum=Department.create("Rossum","Netherlands")
+#     kaniaru=Department.create("Kaniaru","Kanugu")
+#     kaniaru.delete()
+
+#     print(guido.employees())
+#     print("..............")
 
 
 
@@ -107,16 +129,3 @@ class Department:
 
 
 
-
-
-
-
-# Department.drop_table()
-# Department.create_table()
-# guido=Department("Guido","Somewhere")
-# guido.save()
-# guido.location="Dutch"
-# guido.update()
-# rossum=Department.create("Rossum","Netherlands")
-# kaniaru=Department.create("Kaniaru","Kanugu")
-# kaniaru.delete()
